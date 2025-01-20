@@ -17,7 +17,7 @@ namespace Settings
 		inline std::string GameName = "";
 		inline std::string GameVersion = "";
 
-		inline constexpr const char* SDKGenerationPath = "C:/Dumper-7";
+		inline constexpr const char* SDKGenerationPath = "./Dumper-7";
 	}
 
 	namespace CppGenerator

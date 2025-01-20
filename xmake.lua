@@ -1,0 +1,7 @@
+add_rules("mode.debug", "mode.release")
+set_languages("c++20")
+target("Dumper-7")
+    set_kind("shared")
+    add_files("src/**.cpp")
+    add_files("src/**.c")
+    add_syslinks("User32", "Ntdll")

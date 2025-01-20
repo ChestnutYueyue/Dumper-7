@@ -28,9 +28,9 @@ std::string MakeNameValid(std::wstring&& Name)
 		return "NULLL";
 
 	/* Replace 0 with Zero or 9 with Nine, if it is the first letter of the name. */
-	if (Name[0] <= '9' && Name[0] >= '0')
+	if (Name[0] <= L'9' && Name[0] >= L'0')
 	{
-		Name.replace(0, 1, Numbers[Name[0] - '0']);
+		Name.replace(0, 1, Numbers[static_cast<size_t>(Name[0] - L'0')]);
 	}
 	
 	std::u32string Strrr;
@@ -41,16 +41,16 @@ std::string MakeNameValid(std::wstring&& Name)
 	bool bIsFirstIteration = true;
 	for (auto It = UtfN::utf32_iterator<std::u32string::iterator>(Utf32Name); It; ++It)
 	{
-		if (bIsFirstIteration && !IsUnicodeCharXIDStart(Name[0]))
+		if (bIsFirstIteration && !IsUnicodeCharXIDStart(static_cast<char32_t>(Name[0])))
 		{
 			/* Replace invalid starting character with 'm' character. 'm' for "member" */
-			Name[0] = 'm';
+			Name[0] = L'm';
 
 			bIsFirstIteration = false;
 		}
 
 		if (!IsUnicodeCharXIDContinue((*It).Get()))
-			It.Replace('_');
+			It.Replace(static_cast<char32_t>(L'_'));
 	}
 
 	return  UtfN::Utf32StringToUtf8String<std::string>(Utf32Name);;
@@ -99,7 +99,7 @@ void FName::Init(bool bForceGNames)
 					const uint32 Number = FName(Name).GetNumber();
 
 					if (Number > 0)
-						return NameArray::GetNameEntry(Name).GetWString() + L'_' + std::to_wstring(Number - 1);
+						return NameArray::GetNameEntry(Name).GetWString() + std::wstring(L"_") + std::to_wstring(Number - 1);
 				}
 
 				return NameArray::GetNameEntry(Name).GetWString();
